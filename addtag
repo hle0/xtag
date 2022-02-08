@@ -1,0 +1,2 @@
+#!/bin/sh
+setfattr -n "user.tag:$2" "$1"

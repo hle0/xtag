@@ -1,0 +1,17 @@
+#!/bin/sh
+x=$1
+shift
+y=$(mktemp)
+
+read_all() {
+    if [ $# -gt 0 ]; then
+        echo "$1"
+        shift
+        read_all $@
+    fi
+}
+
+read_all $@ | sort > "$y"
+
+find "$x" -type f -exec bash -c '[ $(lstag $0 | sort | comm -13 - $1 | wc -l) -eq 0 ] && echo $0' {} "$y" \;
+rm "$y"
