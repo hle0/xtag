@@ -1,2 +1,3 @@
 #!/bin/sh
 setfattr -x "user.tag:$2" "$1"
+exit $?

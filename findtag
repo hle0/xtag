@@ -13,5 +13,13 @@ read_all() {
 
 read_all $@ | sort > "$y"
 
-find "$x" -type f -exec bash -c '[ $(lstag $0 | sort | comm -13 - $1 | wc -l) -eq 0 ] && echo $0' {} "$y" \;
+each_script='''
+x="$(lstag "$0")" || exit $?
+
+if [ $(echo "$x" | sort | comm -13 - $1 | wc -l 2>/dev/null) -eq 0 ]; then
+    echo $0
+fi
+'''
+
+find "$x" -type f -exec bash -c "$each_script" {} "$y" \; || exit $?
 rm "$y"
