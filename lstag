@@ -1,4 +1,4 @@
 #!/bin/sh
 attrs="$(attr -lq "$1")" || exit $?
-echo "$attrs" | cut -d: -f2- | grep -v "^$"
+printf '%s' "$attrs" | cut -d: -f2-
 exit $?
